@@ -63,4 +63,8 @@ class TFLH: #thinned flh combining many flh classes
 
         avg_preds = self.moving_average(preds) #average last m predictions to reduce variance
 
-        return preds, avg_preds, cum_loss
+        avg_loss = (avg_preds - theta) ** 2
+        avg_loss = np.where(np.isnan(avg_preds), np.nan, avg_loss)
+        cum_avg_loss = np.nancumsum(avg_loss)
+
+        return preds, avg_preds, cum_loss, cum_avg_loss
